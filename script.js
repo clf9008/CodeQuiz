@@ -1,194 +1,170 @@
-//select all elements 
-const start = document.getElementById("start"); 
+// select all elements
+const start = document.getElementById("start");
 const quiz = document.getElementById("quiz");
-const questionImage = document.getElementById("questionImage");
 const question = document.getElementById("question");
-const qTimer = document.getElementById("qTimer");
-const timerCount= document.getElementById("timerCount");
-const timerGauge = document.getElementById("timerGauge");
+const qImg = document.getElementById("qImg");
 const choice1 = document.getElementById("1");
 const choice2 = document.getElementById("2");
 const choice3 = document.getElementById("3");
-const quizProgress = document.getElementById("quizProgress");
-const userScore = document.getElementById("userScore");
+const counter = document.getElementById("counter");
+const timeGauge = document.getElementById("timeGauge");
+const progress = document.getElementById("progress");
+const scoreDiv = document.getElementById("scoreContainer");
 
-//Questions array with 10 questions for quiz
+// create our questions
 let questions = [
-
     {
-        question : "what does this question ask?"
-        imgSrc : "img.png",
-        choice1 : "This is the first answer",
-        choice2 : "This is the second answer",
-        choice3 : "this is the third answer"
+        question : "In what year did Dale Earnhardt win the Rookie of the Year award",
+        imgSrc : "assets/Rookie.jpg",
+        choice1 : "1979",
+        choice2 : "1980",
+        choice3 : "1983",
         correct : "1"
+    },{
+        question : "How many championships did Dale Earnhardt win?",
+        imgSrc : "assets/Champ.jpg",
+        choice1 : "3",
+        choice2 : "5",
+        choice3 : "7",
+        correct : "3"
+    },{
+        question : "At what track did Dale Earnhardt earn his last victory?",
+        imgSrc : "assets/Victory.jpg",
+        choice1 : "Daytona ",
+        choice2 : "Talladega",
+        choice3 : "Bristol",
+        correct : "2"
+    },{
+        question : "What year did Dale Earnhardt win his 7th Nascar Cup Series Championship?",
+        imgSrc : "assets/seven.jpg",
+        choice1 : "1990",
+        choice2 : "1988",
+        choice3 : "1994",
+        correct : "3"
     },
     {
-        question : "what does this question ask #2?"
-        imgSrc : "img2.png",
-        choice1 : "This is the first answer",
-        choice2 : "This is the second answer",
-        choice3 : "this is the third answer"
+        question : "Who was Dale Earnhardt's greatest rival?",
+        imgSrc : "assets/JeffGordon.jpg",
+        choice1 : "Jeff Gordon",
+        choice2 : "Richard Petty",
+        choice3 : "Tony Stewart",
         correct : "1"
-    }
-    {
-        question : "what does this question ask?"
-        imgSrc : "img.png",
-        choice1 : "This is the first answer",
-        choice2 : "This is the second answer",
-        choice3 : "this is the third answer"
-        correct : "1"
-    }
-    {
-        question : "what does this question ask?"
-        imgSrc : "img.png",
-        choice1 : "This is the first answer",
-        choice2 : "This is the second answer",
-        choice3 : "this is the third answer"
-        correct : "1"
-    }
-    {
-        question : "what does this question ask?"
-        imgSrc : "img.png",
-        choice1 : "This is the first answer",
-        choice2 : "This is the second answer",
-        choice3 : "this is the third answer"
-        correct : "1"
-    }
-    {
-        question : "what does this question ask?"
-        imgSrc : "img.png",
-        choice1 : "This is the first answer",
-        choice2 : "This is the second answer",
-        choice3 : "this is the third answer"
-        correct : "1" 
-    }
-    {
-        question : "what does this question ask?"
-        imgSrc : "img.png",
-        choice1 : "This is the first answer",
-        choice2 : "This is the second answer",
-        choice3 : "this is the third answer"
-        correct : "1"
-    }
-    {
-        question : "what does this question ask?"
-        imgSrc : "img.png",
-        choice1 : "This is the first answer",
-        choice2 : "This is the second answer",
-        choice3 : "this is the third answer"
-        correct : "1"   
-    }
-    {
-        question : "what does this question ask?"
-        imgSrc : "img.png",
-        choice1 : "This is the first answer",
-        choice2 : "This is the second answer",
-        choice3 : "this is the third answer"
-        correct : "1"   
-    }
-    {
-        question : "what does this question ask?"
-        imgSrc : "img.png",
-        choice1 : "This is the first answer",
-        choice2 : "This is the second answer",
-        choice3 : "this is the third answer"
-        correct : "1"   
-    }
-];  
+    },
+];
 
-//setting the application to display the first condition in the questions array
-let lastquestionIndex = questions.length - 1; 
-let runningquestionIndex = 0;
 
-//function to render quesiton on application
-function questionRender (){
-    let q = questions[runningquestionIndex];
+const lastQuestion = questions.length - 1;
+let runningQuestion = 0;
+let count = 90;
+const questionTime = 90; // 90s
+const subtractTime = 3;
+const gaugeWidth = 150; // 150px
+const gaugeUnit = gaugeWidth / questionTime;
+let TIMER;
+let score = 0;
+
+// render a question
+function renderQuestion(){
+    let q = questions[runningQuestion];
     
-    question.innerHTML = "<p>" + q.question + "</p>";
-    qImg.innerHTML = "<img src=" + q.imgSrc + ">";
+    question.innerHTML = "<p>"+ q.question +"</p>";
+    qImg.innerHTML = "<img src="+ q.imgSrc +">";
     choice1.innerHTML = q.choice1;
     choice2.innerHTML = q.choice2;
     choice3.innerHTML = q.choice3;
 }
-start.style.display = "none";
-questionRender();
-quiz.style.display = "block";
 
-//function to create quiz progress display on application 
-function progressRender(){
-    for (let qIndex = 0; qIndex < lastquestionIndex.length; qIndex++) {
-        quizProgress.innerHTML +="<div class='prog' id=" + qIndex + "></div>";
-        }
-}
-//funciton for display if question is answered correctly
-function correctAnswer(){
-    document.getElementById(runningQuestionIndex).style.backgroundColor = "green";
-}
-//funciton for display if question is answered incorrectly
-function incorrectAnswer(){
-    document.getElementById(runningquestionIndex).style.backgroundColor = "red";
-}
-//constant of question timer that will be displayed on application
-const questionTime = 10; //10 seconds every question
-const gaugeWidth = 150;
-let count   =     0;
-const gaugeProgressUnit = gaugeWidth/questionTime;
-//function to for question timer to display progress left for each question
+start.addEventListener("click",startQuiz);
 
-function counterRender(){
-    if( count ,= questionTime ){
-        counterRender.innerHTML = count;
-        timerGauge.style.width = gaugeProgressUnit * count + "px" ;
-        count++;
-    }else{
-        count = 0;
-        incorrectAnswer();
-        if( runningquestionIndex < lastquestionIndex){
-            runningquestionIndex++;
-            questionRender();
-
-        }else{ clearInterval(TIMER);
-        scoreRender(); }
-    }
-}
-
-function checkAnswer(answer){
-    if(questions[runningquestionIndex].correct == answer){
-        score++;
-        correctAnswer();
-    }else{
-        incorrectAnswer();
-    }
-    if (runningquestionIndex < lastquestionIndex){
-        count = 0;
-        runningquestionIndex++;
-        questionRender();
-    }else{
-        clearInterval(TIMER);
-        scoreRender();
-    }
-    }
-
-start.addEventListener("click", startQuiz) ;
-
+// start quiz
 function startQuiz(){
     start.style.display = "none";
-    counterRender();
-    TIMER = setInterval(counterRender,1000);
-    progressRender();
-    questionRender();
+    renderQuestion();
     quiz.style.display = "block";
+    renderProgress();
+    renderCounter();
+    TIMER = setInterval(renderCounter,1000); // 1000ms = 1s
 }
-//function to create a display for the score on the application
-function scoreRender(){
-    scoreContainer.style.display="block";
-    let scorePerCent = Math.round(100 * score / questions.length);
-    let img = ( scorePerCent >=80) ? "img/5.png" :
-            ( scorePerCent >= 60 ) ? "img/4.png" :
-            ( scorePerCent >= 40 ) ? "img/3.png" :
-            ( scorePerCent >= 20 ) ? "img/2.png" : "img/1.png" ;
 
-    scoreContainer.innerHTML = "<img src=" = img +
-    "><p>" + scorePerCent + "%</p>";
+// render progress
+function renderProgress(){
+    for(let qIndex = 0; qIndex <= lastQuestion; qIndex++){
+        progress.innerHTML += "<div class='prog' id="+ qIndex +"></div>";
+    }
 }
+
+// counter render
+
+function renderCounter(){
+    if(count <= questionTime){
+        counter.innerHTML = count;
+        timeGauge.style.width = count * gaugeUnit + "px";
+        count--
+    }else{
+        count = 90;
+        // change progress color to red
+        answerIsWrong();
+        if(runningQuestion < lastQuestion){
+            runningQuestion++;
+            renderQuestion();
+        }else{
+            // end the quiz and show the score
+            clearInterval(TIMER);
+            scoreRender();
+        }
+    }
+}
+
+
+// checkAnwer
+
+function checkAnswer(answer){
+    if( answer == questions[runningQuestion].correct){
+        // answer is correct
+        score++;
+        // change progress color to green
+        answerIsCorrect();
+    }else{
+        // answer is wrong
+        // change progress color to red
+        answerIsWrong();
+    }
+    count = 0;
+    if(runningQuestion < lastQuestion){
+        runningQuestion++;
+        renderQuestion();
+    }else{
+        // end the quiz and show the score
+        //clearInterval(TIMER);
+        scoreRender();
+    }
+}
+
+// answer is correct
+function answerIsCorrect(){
+    document.getElementById(runningQuestion).style.backgroundColor = "#0f0";
+}
+
+// answer is Wrong
+function answerIsWrong(){
+    document.getElementById(runningQuestion).style.backgroundColor = "#f00";
+}
+
+// score render
+function scoreRender(){
+    scoreDiv.style.display = "block";
+    
+    // calculate the amount of question percent answered by the user
+    const scorePerCent = Math.round(100 * score/questions.length);
+    
+    // choose the image based on the scorePerCent
+    let img = (scorePerCent >= 80) ? "assets/5.jpg" :
+              (scorePerCent >= 60) ? "assets/4.jpg" :
+              (scorePerCent >= 40) ? "assets/3.jpg" :
+              (scorePerCent >= 20) ? "assets/2.jpg" :
+              "assets/1.jpg height: 200px width: 200px";
+    
+    scoreDiv.innerHTML = "<img src="+ img +">";
+    scoreDiv.innerHTML += "<p>"+ scorePerCent +"%</p>";
+}
+
