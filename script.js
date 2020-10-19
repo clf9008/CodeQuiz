@@ -1,4 +1,4 @@
-//constants on the application display
+//select all elements 
 const start = document.getElementById("start"); 
 const quiz = document.getElementById("quiz");
 const questionImage = document.getElementById("questionImage");
@@ -104,17 +104,21 @@ let runningquestionIndex = 0;
 //function to render quesiton on application
 function questionRender (){
     let q = questions[runningquestionIndex];
-    qImg.innerHTML = "<img src=" + q.imgSrc + ">";
+    
     question.innerHTML = "<p>" + q.question + "</p>";
+    qImg.innerHTML = "<img src=" + q.imgSrc + ">";
     choice1.innerHTML = q.choice1;
     choice2.innerHTML = q.choice2;
     choice3.innerHTML = q.choice3;
 }
+start.style.display = "none";
+questionRender();
+quiz.style.display = "block";
 
 //function to create quiz progress display on application 
 function progressRender(){
     for (let qIndex = 0; qIndex < lastquestionIndex.length; qIndex++) {
-        quizProgress.innerHTML +="<div class='prog'id=" + qIndex + "></div>";
+        quizProgress.innerHTML +="<div class='prog' id=" + qIndex + "></div>";
         }
 }
 //funciton for display if question is answered correctly
@@ -187,6 +191,4 @@ function scoreRender(){
 
     scoreContainer.innerHTML = "<img src=" = img +
     "><p>" + scorePerCent + "%</p>";
-
-
 }
