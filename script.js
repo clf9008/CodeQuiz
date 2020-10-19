@@ -94,3 +94,21 @@ let questions = [
         correct : "1"   
     }
 ];  
+array = [ a, b, c, d] 
+let lastquestionIndex = questions.length - 1; 
+let runningquestionIndex = 0;
+
+function questionRender (){
+    let q = questions[runningquestionIndex];
+    qImg.innerHTML = "<img src=" + q.imgSrc + ">";
+    question.innerHTML = "<p>" + q.question + "</p>";
+    choice1.innerHTML = q.choice1;
+    choice2.innerHTML = q.choice2;
+    choice3.innerHTML = q.choice3;
+}
+
+function progressRender(){
+    for (let qIndex = 0; qIndex < lastquestionIndex.length; qIndex++) {
+        quizProgress.innerHTML +="<div class='prog'id=" + qIndex + "></div>";
+        }
+}
