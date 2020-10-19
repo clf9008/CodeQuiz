@@ -112,3 +112,10 @@ function progressRender(){
         quizProgress.innerHTML +="<div class='prog'id=" + qIndex + "></div>";
         }
 }
+function correctAnswer(){
+    document.getElementById(runningQuestionIndex).style.backgroundColor = "green";
+}
+function incorrectAnswer(){
+    document.getElementById(runningquestionIndex).style.backgroundColor = "red";
+}
+
