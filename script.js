@@ -1,0 +1,12 @@
+const start = document.getElementById("start");
+const quiz = document.getElementById("quiz");
+const questionImage = document.getElementById("questionImage");
+const question = document.getElementById("question");
+const qTimer = document.getElementById("qTimer");
+const timerCount= document.getElementById("timerCount");
+const timerGauge = document.getElementById("timerGauge");
+const choice1 = document.getElementById("1");
+const choice2 = document.getElementById("2");
+const choice3 = document.getElementById("3");
+const quizProgress = document.getElementById("quizProgress");
+const userScore = document.getElementById("userScore");
