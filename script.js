@@ -65,7 +65,7 @@ let score = 0;
 // function to call a question up one webpage is loaded
 function renderQuestion(){
     let q = questions[runningQuestion];
-    
+    localStorage.setItem('mostRecentScore', score);
     question.innerHTML = "<p>"+ q.question +"</p>";
     qImg.innerHTML = "<img src="+ q.imgSrc +">";
     choice1.innerHTML = q.choice1;
